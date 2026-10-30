@@ -11,17 +11,22 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat 'py -3.12 --version'
-                bat 'py -3.12 -m pip install -r app\\requirements.txt pytest'
-                bat 'py -3.12 -m pytest -q app'
+                bat '"C:\\Users\\lekha\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" --version'
+
+                bat '"C:\\Users\\lekha\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" -m pip install -r app\\requirements.txt pytest'
+
+                bat '"C:\\Users\\lekha\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" -m pytest -q app'
             }
         }
 
         stage('Build Docker Images') {
             steps {
                 bat 'docker --version'
+
                 bat 'docker build -t medical-store:v1 --build-arg APP_VERSION=v1 app'
+
                 bat 'docker build -t medical-store:v2 --build-arg APP_VERSION=v2 app'
+
                 bat 'docker build -t medical-store:v3 --build-arg APP_VERSION=v3 app'
             }
         }
