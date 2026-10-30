@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: medical-store-v3}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: medical-store-v3}}
+  template:
+    metadata: {labels: {app: medical-store-v3}}
+    spec:
+      containers:
+      - name: medical-store
+        image: DOCKERHUB_USERNAME/medical-store:v3
+        ports: [{containerPort: 5000}]
+        env:
+        - {name: APP_VERSION, value: "v3"}
+        - {name: DB_HOST, value: postgres}
+        - {name: DB_NAME, value: medicalstore}
+        - {name: DB_USER, value: medicaluser}
+        - {name: DB_PASSWORD, value: medicalpass}
+        readinessProbe:
+          httpGet: {path: /health, port: 5000}
+          initialDelaySeconds: 10
+          periodSeconds: 5
